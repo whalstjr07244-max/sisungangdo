@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시선강도 | AI Creative Agency</title>
+<meta name="description" content="기획부터 AI 영상 제작, 채널 성장까지. 콘텐츠가 터지는 이유를 설계하는 AI Creative Agency, 시선강도.">
+<meta property="og:title" content="시선강도 | AI Creative Agency">
+<meta property="og:description" content="6개월, 7,000만 뷰. 그 팀이 이번엔 당신의 브랜드를 터뜨립니다.">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:type" content="website">
+<link rel="stylesheet" as="style" crossorigin="anonymous" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root {
+  --bg-base: #05070a;
+  --bg-light: #0d1218;
+  --text-primary: #ffffff;
+  --text-secondary: #8c9bad;
+  --ui-line: rgba(255, 255, 255, 0.15);
+  --glow-core: #ffcc00;
+  --glow-mid: #ff5500;
+  --glow-edge: #cc1100;
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* ── Animations ── */
+@keyframes pulseCore {
+  0% { transform: translateY(-50%) scale(1); opacity: 0.5; }
+  100% { transform: translateY(-50%) scale(1.1); opacity: 0.8; }
+}
+@keyframes rotateCore {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* ── Shared Section ── */
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 4rem;
+  overflow: hidden;
+  z-index: 1;
+  background-color: var(--bg-base);
+}
+.bg-grid {
+  position: absolute; inset: 0; z-index: -3;
+  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.ambient-light {
+  position: absolute; inset: 0; z-index: -2;
+  background: radial-gradient(circle at 70% 50%, rgba(20,25,35,0.8) 0%, var(--bg-base) 60%);
+}
+
+/* ── UI Marks ── */
+.ui-mark { position: absolute; pointer-events: none; }
+.ui-mark.tl { top: 40px; left: 40px; width: 24px; height: 24px; border-top: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); }
+.ui-mark.bl { bottom: 40px; left: 40px; width: 24px; height: 24px; border-bottom: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); }
+.ui-mark.br { bottom: 40px; right: 40px; width: 24px; height: 24px; border-bottom: 1px solid var(--ui-line); border-right: 1px solid var(--ui-line); }
+.ui-mark.bc { bottom: 40px; left: 50%; transform: translateX(-50%); width: 48px; height: 12px; border-bottom: 1px solid var(--ui-line); }
+.ui-mark.bc::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 8px; background-color: var(--ui-line); }
+
+/* ── Hero ── */
+.hero { padding: 4rem; }
+.energy-core {
+  position: absolute; right: 15%; top: 50%; transform: translateY(-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 40%, var(--glow-core) 0%, var(--glow-mid) 20%, var(--glow-edge) 40%, transparent 70%);
+  filter: blur(60px); opacity: 0.6; mix-blend-mode: screen; z-index: -1;
+  animation: pulseCore 8s ease-in-out infinite alternate, rotateCore 20s linear infinite;
+}
+.energy-core::after {
+  content: ''; position: absolute; inset: -20%; border-radius: 50%;
+  background: radial-gradient(circle at 70% 60%, var(--glow-mid) 0%, transparent 50%);
+  filter: blur(40px); mix-blend-mode: color-dodge;
+  animation: pulseCore 6s ease-in-out infinite alternate-reverse;
+}
+.vertical-brand {
+  position: absolute; left: 40px; top: 50%; transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl; font-family: var(--font-mono);
+  font-size: 0.75rem; letter-spacing: 0.8em; color: rgba(255,255,255,0.4); text-transform: uppercase;
+}
+.hero-content {
+  width: 100%; max-width: 1200px; display: flex; flex-direction: column;
+  align-items: flex-start; position: relative; z-index: 10; padding-left: 80px;
+}
+.badge {
+  font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.1em;
+  color: var(--glow-mid); margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;
+}
+.badge::before { content: ''; display: block; width: 24px; height: 1px; background-color: var(--glow-mid); }
+.headline {
+  font-size: 4.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
+  margin-bottom: 2rem; color: var(--text-primary); text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+.headline .highlight {
+  background: linear-gradient(90deg, #fff 0%, var(--glow-core) 50%, var(--glow-mid) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; display: inline-block; padding-bottom: 0.1em;
+}
+.subhead {
+  font-size: 1.25rem; font-weight: 400; line-height: 1.6; color: var(--text-secondary);
+  max-width: 600px; margin-bottom: 3.5rem; letter-spacing: -0.01em;
+}
+
+/* ── CTA Button ── */
+.cta-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 16px;
+  background: rgba(13,18,24,0.6); color: var(--text-primary); font-family: var(--font-sans);
+  font-size: 1rem; font-weight: 500; padding: 1.25rem 2.5rem;
+  border: 1px solid var(--ui-line); cursor: pointer; text-decoration: none;
+  backdrop-filter: blur(10px); position: relative; overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.cta-button:hover {
+  border-color: var(--glow-mid); background: rgba(255,85,0,0.05);
+  box-shadow: 0 0 30px rgba(255,85,0,0.15), inset 0 0 15px rgba(255,85,0,0.1);
+}
+.cta-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; color: var(--glow-mid); transition: transform 0.3s ease;
+}
+.cta-button:hover .cta-icon { transform: translate(4px, -4px); }
+
+/* ── Problem Section ── */
+.section-headline {
+  font-size: 3rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.02em;
+  color: var(--text-primary); text-align: center;
+}
+.content-center { max-width: 1000px; padding-left: 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; width: 100%; }
+.pain-points { display: flex; flex-direction: column; gap: 3rem; width: 100%; max-width: 800px; margin-top: 8rem; }
+.pain-point {
+  display: flex; gap: 2rem; align-items: flex-start; padding: 2.5rem;
+  background: rgba(13,18,24,0.4); border: 1px solid var(--ui-line);
+  transition: all 0.4s ease;
+}
+.pain-point:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.03); }
+.pain-point .number {
+  font-family: var(--font-mono); font-size: 2rem; font-weight: 700;
+  color: var(--glow-mid); line-height: 1; flex-shrink: 0; min-width: 3rem;
+}
+.pain-point p { font-size: 1.125rem; line-height: 1.8; color: var(--text-secondary); letter-spacing: -0.01em; }
+
+/* ── Services Section ── */
+.services-content { max-width: 1200px; padding-left: 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; width: 100%; }
+.badge-center { justify-content: center; }
+.badge-center::after { content: ''; display: block; width: 24px; height: 1px; background-color: var(--glow-mid); margin-left: 12px; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; width: 100%; margin-top: 8rem; }
+.service-card {
+  display: flex; flex-direction: column; padding: 3rem;
+  background: rgba(13,18,24,0.4); border: 1px solid var(--ui-line);
+  transition: all 0.4s ease;
+}
+.service-card:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.03); transform: translateY(-4px); }
+.service-icon { font-size: 2.5rem; margin-bottom: 2rem; line-height: 1; }
+.service-title { font-size: 1.5rem; font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; margin-bottom: 1.25rem; color: var(--text-primary); }
+.service-desc { font-size: 1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2.5rem; flex-grow: 1; }
+.service-proof { padding: 1.5rem; background: rgba(255,85,0,0.08); border-left: 3px solid var(--glow-mid); }
+.proof-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--glow-mid); margin-bottom: 0.5rem; display: block; }
+.service-proof p { font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); }
+
+/* ── CTA Section ── */
+.cta-content { max-width: 800px; padding-left: 0; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 10; width: 100%; }
+.cta-headline { font-size: 3.5rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 4rem; color: var(--text-primary); }
+.cta-subhead { font-size: 1.25rem; font-weight: 400; line-height: 1.7; color: var(--text-secondary); margin-bottom: 3rem; letter-spacing: -0.01em; }
+.cta-section .cta-button { margin-bottom: 3rem; }
+.contact-info { display: flex; gap: 2.5rem; align-items: center; justify-content: center; }
+.contact-item { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; }
+.contact-item:hover { color: var(--glow-mid); }
+.contact-icon { font-size: 1.25rem; line-height: 1; }
+
+/* ── Responsive ── */
+@media (max-width: 1400px) {
+  .headline { font-size: 4rem; }
+  .energy-core { width: 500px; height: 500px; right: 10%; }
+}
+@media (max-width: 1024px) {
+  .section { padding: 6rem 2rem; }
+  .hero { padding: 4rem 2rem; }
+  .hero-content { padding-left: 40px; }
+  .headline { font-size: 3.25rem; }
+  .subhead { font-size: 1.125rem; }
+  .vertical-brand { display: none; }
+  .energy-core { right: -5%; opacity: 0.4; }
+  .section-headline { font-size: 2.25rem; }
+  .cta-headline { font-size: 2.25rem; }
+  .pain-points { margin-top: 6rem; }
+  .services-grid { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 6rem; }
+  .service-card { padding: 2rem; }
+  .contact-info { flex-direction: column; gap: 1rem; }
+}
+@media (max-width: 640px) {
+  .section { padding: 4rem 1.25rem; }
+  .hero { padding: 2rem 1.25rem; }
+  .hero-content { padding-left: 0; }
+  .badge { font-size: 0.75rem; margin-bottom: 1.5rem; }
+  .headline { font-size: 1.75rem; margin-bottom: 1.5rem; }
+  .subhead { font-size: 0.875rem; line-height: 1.7; margin-bottom: 2.5rem; }
+  .cta-button { font-size: 0.875rem; padding: 1rem 1.5rem; }
+  .section-headline { font-size: 1.5rem; }
+  .pain-points { gap: 1.5rem; margin-top: 4rem; }
+  .pain-point { flex-direction: column; gap: 0.75rem; padding: 1.25rem; }
+  .pain-point .number { font-size: 1.25rem; min-width: auto; }
+  .pain-point p { font-size: 0.9rem; }
+  .services-grid { gap: 1.25rem; margin-top: 4rem; }
+  .service-card { padding: 1.25rem; }
+  .service-icon { font-size: 2rem; margin-bottom: 1.25rem; }
+  .service-title { font-size: 1.125rem; margin-bottom: 0.75rem; }
+  .service-desc { font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .service-proof { padding: 1rem; }
+  .service-proof p { font-size: 0.85rem; }
+  .cta-headline { font-size: 1.5rem; margin-bottom: 3rem; }
+  .cta-subhead { font-size: 0.875rem; margin-bottom: 2rem; }
+  .contact-item { font-size: 0.875rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ HERO ════════ -->
+<section class="section hero">
+  <div class="ambient-light"></div>
+  <div class="bg-grid"></div>
+  <div class="energy-core"></div>
+  <div class="ui-mark tl"></div>
+  <div class="ui-mark bl"></div>
+  <div class="ui-mark bc"></div>
+  <div class="ui-mark br"></div>
+  <div class="vertical-brand">S i s e o n g a n g d o</div>
+
+  <div class="hero-content">
+    <div class="badge">AI CREATIVE AGENCY</div>
+    <h1 class="headline">
+      <span class="highlight">6개월, 7,000만 뷰.</span><br>
+      그 팀이 이번엔<br>
+      당신의 브랜드를 터뜨립니다.
+    </h1>
+    <p class="subhead">
+      기획부터 AI 영상 제작, 채널 성장까지.<br>
+      콘텐츠가 터지는 이유를 설계하는 AI Creative Agency, 시선강도.
+    </p>
+    <a href="#cta" class="cta-button">
+      <span>무료 콘텐츠 진단 받기</span>
+      <span class="cta-icon">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- ════════ PROBLEM ════════ -->
+<section class="section">
+  <div class="ambient-light"></div>
+  <div class="bg-grid"></div>
+  <div class="ui-mark tl"></div>
+  <div class="ui-mark bl"></div>
+  <div class="ui-mark bc"></div>
+  <div class="ui-mark br"></div>
+
+  <div class="content-center">
+    <h2 class="section-headline">"콘텐츠, 열심히는 하는데<br>왜 안 터질까요?"</h2>
+    <div class="pain-points">
+      <div class="pain-point">
+        <span class="number">①</span>
+        <p>영상 1편에 500만 원, 조회수는 3,000. 전통 제작 방식으로는 비용은 비용대로, 시간은 시간대로 들어가는데 성과가 안 보입니다. 매달 예산만 태우고 있다면 구조의 문제입니다.</p>
+      </div>
+      <div class="pain-point">
+        <span class="number">②</span>
+        <p>AI 툴은 깔았는데, 결과물이 '아마추어 느낌'. Sora, Kling, Midjourney — 툴은 넘치지만 기획력 없는 AI 영상은 그냥 '신기한 영상'에서 끝납니다. 스크롤을 멈추게 하는 건 기술이 아니라 구조입니다.</p>
+      </div>
+      <div class="pain-point">
+        <span class="number">③</span>
+        <p>인스타·유튜브, 매주 올리는데 팔로워가 제자리. 알고리즘은 계속 바뀌고, 감으로 올리는 콘텐츠는 도달률이 떨어집니다. 채널 데이터를 읽지 않으면 같은 실수를 반복하게 됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SERVICES ════════ -->
+<section class="section">
+  <div class="ambient-light"></div>
+  <div class="bg-grid"></div>
+  <div class="ui-mark tl"></div>
+  <div class="ui-mark bl"></div>
+  <div class="ui-mark bc"></div>
+  <div class="ui-mark br"></div>
+
+  <div class="services-content">
+    <div class="badge badge-center">SERVICES</div>
+    <h2 class="section-headline">시선강도가 설계합니다.</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🎯</div>
+        <h3 class="service-title">브랜드 콘텐츠 전략 설계</h3>
+        <p class="service-desc">채널 데이터를 먼저 분석하고, 브랜드 목표를 바이럴 가능한 구조로 번역합니다. 훅, 서사, 확산 구조까지 한 번에 설계합니다.</p>
+        <div class="service-proof">
+          <span class="proof-label">대표 디렉터</span>
+          <p>국내 대형 에듀테크 기업 AI 콘텐츠 디렉터 출신. 채널 오가닉 유입 300% 증가, 광고소재 CPA 60% 절감 경험 보유.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎬</div>
+        <h3 class="service-title">AI 기반 영상 제작</h3>
+        <p class="service-desc">생성형 AI(Kling·Sora·Veo)와 전문 편집 시스템을 결합해, 기존 제작 대비 3~5배 빠른 속도로 고퀄리티 영상을 납품합니다.</p>
+        <div class="service-proof">
+          <span class="proof-label">자체 채널 AI PISIK</span>
+          <p>6개월 만에 누적 6,200만 뷰, 평균 조회수 58만</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3 class="service-title">채널 성장 & IP 운영</h3>
+        <p class="service-desc">일회성 바이럴이 아닌, 반복 시청을 만드는 시리즈 구조와 캐릭터 IP를 설계합니다.</p>
+        <div class="service-proof">
+          <span class="proof-label">AI PISIK</span>
+          <p>단순 바이럴을 넘어 팬덤 구조 형성</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CTA ════════ -->
+<section class="section cta-section" id="cta">
+  <div class="ambient-light"></div>
+  <div class="bg-grid"></div>
+  <div class="ui-mark tl"></div>
+  <div class="ui-mark bl"></div>
+  <div class="ui-mark bc"></div>
+  <div class="ui-mark br"></div>
+
+  <div class="cta-content">
+    <h2 class="cta-headline">다음 7,000만 뷰의 주인공은<br>당신의 브랜드입니다.</h2>
+    <p class="cta-subhead">
+      지금 채널 데이터와 콘텐츠 현황을 보내주시면,<br>
+      시선강도 팀이 무료로 진단 리포트를 만들어 드립니다.<br><br>
+      어떤 콘텐츠가 왜 안 터지는지,<br>
+      어디서부터 바꿔야 하는지 — 데이터로 보여드립니다.
+    </p>
+    <a href="mailto:contact@sisungangdo.com" class="cta-button">
+      <span>무료 콘텐츠 진단 신청하기</span>
+      <span class="cta-icon">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+      </span>
+    </a>
+    <div class="contact-info">
+      <a href="mailto:contact@sisungangdo.com" class="contact-item">
+        <span class="contact-icon">📧</span>
+        <span>contact@sisungangdo.com</span>
+      </a>
+      <a href="tel:+821080036702" class="contact-item">
+        <span class="contact-icon">📞</span>
+        <span>+82 10-8003-6702</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
