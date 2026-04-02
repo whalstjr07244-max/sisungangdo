@@ -6,7 +6,7 @@
 <title>시선강도 | AI Creative Agency</title>
 <meta name="description" content="기획부터 AI 영상 제작, 채널 성장까지. 콘텐츠가 터지는 이유를 설계하는 AI Creative Agency, 시선강도.">
 <meta property="og:title" content="시선강도 | AI Creative Agency">
-<meta property="og:description" content="6개월, 7,000만 뷰. 그 팀이 이번엔 당신의 브랜드를 터뜨립니다.">
+<meta property="og:description" content="6개월, 7,000만 뷰. 이제, 당신의 브랜드 차례입니다.">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:type" content="website">
 <link rel="stylesheet" as="style" crossorigin="anonymous" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -25,7 +25,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
@@ -36,7 +36,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── Animations ── */
 @keyframes pulseCore {
   0% { transform: translateY(-50%) scale(1); opacity: 0.5; }
   100% { transform: translateY(-50%) scale(1.1); opacity: 0.8; }
@@ -45,18 +44,48 @@ body {
   0% { transform: translateY(-50%) rotate(0deg); }
   100% { transform: translateY(-50%) rotate(360deg); }
 }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes lineGrow {
+  from { width: 0; }
+  to { width: 24px; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Scroll Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+.reveal-delay-4 { transition-delay: 0.6s; }
 
 /* ── Shared Section ── */
 .section {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8rem 4rem;
-  overflow: hidden;
-  z-index: 1;
+  position: relative; width: 100%; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 8rem 4rem; overflow: hidden; z-index: 1;
   background-color: var(--bg-base);
 }
 .bg-grid {
@@ -68,8 +97,18 @@ body {
   position: absolute; inset: 0; z-index: -2;
   background: radial-gradient(circle at 70% 50%, rgba(20,25,35,0.8) 0%, var(--bg-base) 60%);
 }
-
-/* ── UI Marks ── */
+.particles { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.particle {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(255,85,0,0.3);
+  animation: floatParticle linear infinite;
+}
+@keyframes floatParticle {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
 .ui-mark { position: absolute; pointer-events: none; }
 .ui-mark.tl { top: 40px; left: 40px; width: 24px; height: 24px; border-top: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); }
 .ui-mark.bl { bottom: 40px; left: 40px; width: 24px; height: 24px; border-bottom: 1px solid var(--ui-line); border-left: 1px solid var(--ui-line); }
@@ -77,8 +116,48 @@ body {
 .ui-mark.bc { bottom: 40px; left: 50%; transform: translateX(-50%); width: 48px; height: 12px; border-bottom: 1px solid var(--ui-line); }
 .ui-mark.bc::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 8px; background-color: var(--ui-line); }
 
+/* ── Nav ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem; height: 64px;
+  background: rgba(5,7,10,0.6); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.3s ease;
+}
+.nav.scrolled { background: rgba(5,7,10,0.9); }
+.nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.nav-logo-icon { width: 28px; height: 28px; }
+.nav-logo-text { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-link {
+  font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--text-secondary); text-decoration: none;
+  transition: color 0.3s ease; position: relative;
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+  background: var(--glow-mid); transition: width 0.3s ease;
+}
+.nav-link:hover { color: var(--text-primary); }
+.nav-link:hover::after { width: 100%; }
+.nav-cta {
+  font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--glow-mid); text-decoration: none;
+  padding: 0.5rem 1rem; border: 1px solid rgba(255,85,0,0.3);
+  transition: all 0.3s ease;
+}
+.nav-cta:hover { background: rgba(255,85,0,0.1); border-color: var(--glow-mid); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+.nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text-primary); margin: 5px 0; transition: all 0.3s ease; }
+
 /* ── Hero ── */
-.hero { padding: 4rem; }
+.hero { padding: 4rem; padding-top: 6rem; }
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 180px;
+  background: linear-gradient(to bottom, transparent, var(--bg-base));
+  z-index: 2; pointer-events: none;
+}
 .energy-core {
   position: absolute; right: 15%; top: 50%; transform: translateY(-50%);
   width: 600px; height: 600px; border-radius: 50%;
@@ -97,28 +176,44 @@ body {
   writing-mode: vertical-rl; font-family: var(--font-mono);
   font-size: 0.75rem; letter-spacing: 0.8em; color: rgba(255,255,255,0.4); text-transform: uppercase;
 }
-.hero-content {
-  width: 100%; max-width: 1200px; display: flex; flex-direction: column;
-  align-items: flex-start; position: relative; z-index: 10; padding-left: 80px;
+.hero-inner {
+  width: 100%; max-width: 1200px; display: flex; align-items: center;
+  justify-content: space-between; position: relative; z-index: 10; padding-left: 80px; gap: 4rem;
 }
+.hero-content { display: flex; flex-direction: column; align-items: flex-start; flex: 1; }
 .badge {
   font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.1em;
   color: var(--glow-mid); margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;
+  animation: fadeInLeft 0.8s ease-out both;
 }
-.badge::before { content: ''; display: block; width: 24px; height: 1px; background-color: var(--glow-mid); }
+.badge::before { content: ''; display: block; width: 24px; height: 1px; background-color: var(--glow-mid); animation: lineGrow 0.6s 0.3s ease-out both; }
 .headline {
   font-size: 4.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;
   margin-bottom: 2rem; color: var(--text-primary); text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  animation: fadeInUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .headline .highlight {
   background: linear-gradient(90deg, #fff 0%, var(--glow-core) 50%, var(--glow-mid) 100%);
+  background-size: 200% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text; display: inline-block; padding-bottom: 0.1em;
+  animation: shimmer 4s ease-in-out infinite;
 }
 .subhead {
   font-size: 1.25rem; font-weight: 400; line-height: 1.6; color: var(--text-secondary);
   max-width: 600px; margin-bottom: 3.5rem; letter-spacing: -0.01em;
+  animation: fadeInUp 1s 0.4s cubic-bezier(0.16,1,0.3,1) both;
 }
+.hero .cta-button { animation: fadeInUp 1s 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+/* ── Logo Eye Tracking ── */
+.logo-container {
+  flex-shrink: 0; position: relative; width: 260px; height: 310px;
+  animation: fadeInScale 1s 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+.logo-face { width: 100%; height: 100%; animation: floatY 6s ease-in-out infinite; filter: drop-shadow(0 0 60px rgba(255,85,0,0.15)); }
+.logo-face svg { width: 100%; height: 100%; }
+.eye-pupil { transition: transform 0.15s ease-out; transform-origin: center center; }
 
 /* ── CTA Button ── */
 .cta-button {
@@ -129,21 +224,18 @@ body {
   backdrop-filter: blur(10px); position: relative; overflow: hidden;
   transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
 }
-.cta-button:hover {
-  border-color: var(--glow-mid); background: rgba(255,85,0,0.05);
-  box-shadow: 0 0 30px rgba(255,85,0,0.15), inset 0 0 15px rgba(255,85,0,0.1);
+.cta-button::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,85,0,0.15), transparent);
+  transition: left 0.6s ease;
 }
-.cta-icon {
-  display: flex; align-items: center; justify-content: center;
-  width: 24px; height: 24px; color: var(--glow-mid); transition: transform 0.3s ease;
-}
+.cta-button:hover::before { left: 100%; }
+.cta-button:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.05); box-shadow: 0 0 30px rgba(255,85,0,0.15), inset 0 0 15px rgba(255,85,0,0.1); }
+.cta-icon { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; color: var(--glow-mid); transition: transform 0.3s ease; }
 .cta-button:hover .cta-icon { transform: translate(4px, -4px); }
 
 /* ── Problem Section ── */
-.section-headline {
-  font-size: 3rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.02em;
-  color: var(--text-primary); text-align: center;
-}
+.section-headline { font-size: 3rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; color: var(--text-primary); text-align: center; }
 .content-center { max-width: 1000px; padding-left: 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; width: 100%; }
 .pain-points { display: flex; flex-direction: column; gap: 3rem; width: 100%; max-width: 800px; margin-top: 8rem; }
 .pain-point {
@@ -151,12 +243,11 @@ body {
   background: rgba(13,18,24,0.4); border: 1px solid var(--ui-line);
   transition: all 0.4s ease;
 }
-.pain-point:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.03); }
-.pain-point .number {
-  font-family: var(--font-mono); font-size: 2rem; font-weight: 700;
-  color: var(--glow-mid); line-height: 1; flex-shrink: 0; min-width: 3rem;
-}
+.pain-point:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.03); transform: translateX(8px); }
+.pain-point .number { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--glow-mid); line-height: 1; flex-shrink: 0; min-width: 3rem; }
 .pain-point p { font-size: 1.125rem; line-height: 1.8; color: var(--text-secondary); letter-spacing: -0.01em; }
+.hl-warn { color: #fff; font-weight: 600; white-space: nowrap; }
+.hl-key { color: var(--glow-mid); font-weight: 600; white-space: nowrap; }
 
 /* ── Services Section ── */
 .services-content { max-width: 1200px; padding-left: 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; width: 100%; }
@@ -166,15 +257,93 @@ body {
 .service-card {
   display: flex; flex-direction: column; padding: 3rem;
   background: rgba(13,18,24,0.4); border: 1px solid var(--ui-line);
-  transition: all 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-.service-card:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.03); transform: translateY(-4px); }
-.service-icon { font-size: 2.5rem; margin-bottom: 2rem; line-height: 1; }
+.service-card:hover { border-color: var(--glow-mid); background: rgba(255,85,0,0.03); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.service-icon { margin-bottom: 2rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,85,0,0.3); background: rgba(255,85,0,0.06); border-radius: 10px; }
+.service-icon svg { width: 24px; height: 24px; color: var(--glow-mid); }
 .service-title { font-size: 1.5rem; font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; margin-bottom: 1.25rem; color: var(--text-primary); }
 .service-desc { font-size: 1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2.5rem; flex-grow: 1; }
 .service-proof { padding: 1.5rem; background: rgba(255,85,0,0.08); border-left: 3px solid var(--glow-mid); }
 .proof-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--glow-mid); margin-bottom: 0.5rem; display: block; }
 .service-proof p { font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); }
+
+/* ── Process Section (NEW) ── */
+.process-section { min-height: auto; padding: 10rem 4rem; }
+.process-content { max-width: 1200px; width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; }
+.process-track {
+  width: 100%; margin-top: 8rem; position: relative;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+}
+/* Connecting line behind steps */
+.process-track::before {
+  content: ''; position: absolute; top: 36px; left: calc(10% + 36px); right: calc(10% + 36px);
+  height: 1px; background: linear-gradient(90deg, var(--glow-mid), rgba(255,85,0,0.2));
+  z-index: 0;
+}
+.process-step {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 0 1rem; position: relative; z-index: 1;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.process-step:hover { transform: translateY(-6px); }
+.step-circle {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 1px solid rgba(255,85,0,0.4);
+  background: rgba(13,18,24,0.9);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 2rem; position: relative;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(8px);
+}
+.process-step:hover .step-circle {
+  border-color: var(--glow-mid);
+  box-shadow: 0 0 30px rgba(255,85,0,0.3), inset 0 0 20px rgba(255,85,0,0.08);
+}
+.step-circle.active {
+  background: rgba(255,85,0,0.12);
+  border-color: var(--glow-mid);
+  box-shadow: 0 0 40px rgba(255,85,0,0.25);
+}
+.step-num {
+  font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+  color: var(--glow-mid); letter-spacing: 0.05em;
+}
+.step-body { display: flex; flex-direction: column; gap: 0.75rem; padding-top: 0.5rem; }
+.step-title { font-size: 1.05rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.01em; line-height: 1.3; }
+.step-desc { font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); }
+/* Arrow between steps (desktop) */
+.process-arrow {
+  position: absolute; right: -1px; top: 29px;
+  font-family: var(--font-mono); color: rgba(255,85,0,0.5);
+  font-size: 1.2rem; z-index: 2;
+  display: flex; align-items: center;
+}
+
+/* ── Portfolio Section ── */
+.portfolio-content { max-width: 1000px; padding-left: 0; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; width: 100%; }
+.portfolio-headline { font-size: 3.5rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 4rem; color: var(--text-primary); text-align: center; }
+.portfolio-video-wrap {
+  width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--ui-line);
+  background: rgba(13,18,24,0.6); position: relative;
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.portfolio-video-wrap:hover { border-color: var(--glow-mid); box-shadow: 0 0 60px rgba(255,85,0,0.1); }
+.portfolio-video-wrap video { width: 100%; display: block; }
+.portfolio-video-wrap.crop video { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.portfolio-video-wrap + .portfolio-video-wrap { margin-top: 2.5rem; }
+.portfolio-video-label {
+  padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--ui-line); background: rgba(13,18,24,0.8);
+}
+.portfolio-video-info { display: flex; align-items: center; gap: 0.75rem; }
+.portfolio-video-title { font-size: 1rem; font-weight: 500; color: var(--text-primary); }
+.portfolio-category {
+  font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--glow-core); padding: 0.2rem 0.5rem; border: 1px solid rgba(255,204,0,0.3); background: rgba(255,204,0,0.08); border-radius: 2px;
+}
+.portfolio-views { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+.portfolio-views span { color: var(--glow-mid); }
 
 /* ── CTA Section ── */
 .cta-content { max-width: 800px; padding-left: 0; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 10; width: 100%; }
@@ -190,11 +359,13 @@ body {
 @media (max-width: 1400px) {
   .headline { font-size: 4rem; }
   .energy-core { width: 500px; height: 500px; right: 10%; }
+  .logo-container { width: 220px; height: 264px; }
 }
 @media (max-width: 1024px) {
   .section { padding: 6rem 2rem; }
   .hero { padding: 4rem 2rem; }
-  .hero-content { padding-left: 40px; }
+  .hero-inner { padding-left: 40px; flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
+  .logo-container { width: 140px; height: 168px; }
   .headline { font-size: 3.25rem; }
   .subhead { font-size: 1.125rem; }
   .vertical-brand { display: none; }
@@ -205,11 +376,27 @@ body {
   .services-grid { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 6rem; }
   .service-card { padding: 2rem; }
   .contact-info { flex-direction: column; gap: 1rem; }
+  .portfolio-headline { font-size: 2.25rem; margin-bottom: 3rem; }
+  .nav { padding: 0 2rem; }
+  /* Process responsive */
+  .process-section { padding: 6rem 2rem; }
+  .process-track { grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 5rem; }
+  .process-track::before { display: none; }
+  .process-arrow { display: none; }
+  .step-circle { width: 60px; height: 60px; }
 }
 @media (max-width: 640px) {
+  .nav { padding: 0 1.25rem; height: 56px; }
+  .nav-links { display: none; position: fixed; top: 56px; left: 0; right: 0; flex-direction: column; background: rgba(5,7,10,0.95); backdrop-filter: blur(16px); padding: 1.5rem; gap: 1.25rem; border-bottom: 1px solid var(--ui-line); }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: block; }
+  .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
   .section { padding: 4rem 1.25rem; }
   .hero { padding: 2rem 1.25rem; }
-  .hero-content { padding-left: 0; }
+  .hero-inner { padding-left: 0; }
+  .logo-container { width: 100px; height: 120px; }
   .badge { font-size: 0.75rem; margin-bottom: 1.5rem; }
   .headline { font-size: 1.75rem; margin-bottom: 1.5rem; }
   .subhead { font-size: 0.875rem; line-height: 1.7; margin-bottom: 2.5rem; }
@@ -217,106 +404,160 @@ body {
   .section-headline { font-size: 1.5rem; }
   .pain-points { gap: 1.5rem; margin-top: 4rem; }
   .pain-point { flex-direction: column; gap: 0.75rem; padding: 1.25rem; }
+  .pain-point:hover { transform: translateX(0); }
   .pain-point .number { font-size: 1.25rem; min-width: auto; }
   .pain-point p { font-size: 0.9rem; }
   .services-grid { gap: 1.25rem; margin-top: 4rem; }
   .service-card { padding: 1.25rem; }
-  .service-icon { font-size: 2rem; margin-bottom: 1.25rem; }
-  .service-title { font-size: 1.125rem; margin-bottom: 0.75rem; }
-  .service-desc { font-size: 0.9rem; margin-bottom: 1.5rem; }
-  .service-proof { padding: 1rem; }
-  .service-proof p { font-size: 0.85rem; }
   .cta-headline { font-size: 1.5rem; margin-bottom: 3rem; }
   .cta-subhead { font-size: 0.875rem; margin-bottom: 2rem; }
   .contact-item { font-size: 0.875rem; }
+  .portfolio-headline { font-size: 1.5rem; margin-bottom: 2rem; }
+  .portfolio-video-label { padding: 1rem; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .portfolio-views { font-size: 0.8rem; }
+  /* Process mobile */
+  .process-section { padding: 4rem 1.25rem; }
+  .process-track { grid-template-columns: 1fr; gap: 2.5rem; margin-top: 3.5rem; }
+  .process-step { flex-direction: row; text-align: left; align-items: flex-start; gap: 1.25rem; }
+  .step-circle { flex-shrink: 0; width: 52px; height: 52px; margin-bottom: 0; }
+  .step-num { font-size: 0.95rem; }
+  .step-title { font-size: 1rem; }
+  .step-desc { font-size: 0.82rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- ════════ HERO ════════ -->
-<section class="section hero">
+<!-- ════ NAV ════ -->
+<nav class="nav" id="mainNav">
+  <a href="#hero" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="58" rx="44" ry="54" fill="#1a1a3e"/>
+      <ellipse cx="36" cy="50" rx="11" ry="7" fill="#f0ead6"/>
+      <ellipse cx="36" cy="50" rx="4.5" ry="4.5" fill="#1a1a3e"/>
+      <ellipse cx="64" cy="50" rx="11" ry="7" fill="#f0ead6"/>
+      <ellipse cx="64" cy="50" rx="4.5" ry="4.5" fill="#1a1a3e"/>
+      <ellipse cx="50" cy="72" rx="5.5" ry="3.5" fill="#f0ead6"/>
+    </svg>
+    <span class="nav-logo-text">시선강도</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#process" class="nav-link">Process</a>
+    <a href="#portfolio" class="nav-link">Portfolio</a>
+    <a href="#cta" class="nav-cta">상담 신청</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="메뉴">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ════ HERO ════ -->
+<section class="section hero" id="hero">
   <div class="ambient-light"></div>
   <div class="bg-grid"></div>
   <div class="energy-core"></div>
+  <div class="particles" id="heroParticles"></div>
   <div class="ui-mark tl"></div>
   <div class="ui-mark bl"></div>
   <div class="ui-mark bc"></div>
   <div class="ui-mark br"></div>
   <div class="vertical-brand">SISUNGANGDO</div>
 
-  <div class="hero-content">
-    <div class="badge">AI CREATIVE AGENCY</div>
-    <h1 class="headline">
-      <span class="highlight">6개월, 7,000만 뷰.</span><br>
-      그 팀이 이번엔<br>
-      당신의 브랜드를 터뜨립니다.
-    </h1>
-    <p class="subhead">
-      기획부터 AI 영상 제작, 채널 성장까지.<br>
-      콘텐츠가 터지는 이유를 설계하는 AI Creative Agency, 시선강도.
-    </p>
-    <a href="#cta" class="cta-button">
-      <span>무료 콘텐츠 진단 받기</span>
-      <span class="cta-icon">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
-      </span>
-    </a>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="badge">AI CREATIVE AGENCY</div>
+      <h1 class="headline">
+        <span class="highlight">6개월, 7,000만 뷰.</span><br>
+        이제, 당신의<br>
+        브랜드 차례입니다.
+      </h1>
+      <p class="subhead">
+        기획부터 AI 영상 제작, 채널 성장까지.<br>
+        콘텐츠가 터지는 이유를 설계하는 AI Creative Agency, 시선강도.
+      </p>
+      <a href="#cta" class="cta-button">
+        <span>무료 콘텐츠 진단 받기</span>
+        <span class="cta-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+        </span>
+      </a>
+    </div>
+
+    <div class="logo-container" id="logoContainer">
+      <div class="logo-face">
+        <svg viewBox="0 0 260 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="130" cy="165" rx="110" ry="140" fill="#1a1a3e"/>
+          <ellipse cx="92" cy="148" rx="28" ry="18" fill="#f0ead6"/>
+          <g class="eye-pupil" id="leftPupil">
+            <ellipse cx="92" cy="148" rx="11" ry="11" fill="#1a1a3e"/>
+          </g>
+          <ellipse cx="168" cy="148" rx="28" ry="18" fill="#f0ead6"/>
+          <g class="eye-pupil" id="rightPupil">
+            <ellipse cx="168" cy="148" rx="11" ry="11" fill="#1a1a3e"/>
+          </g>
+          <ellipse cx="130" cy="210" rx="14" ry="9" fill="#f0ead6"/>
+        </svg>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ════════ PROBLEM ════════ -->
-<section class="section">
+<!-- ════ PROBLEM ════ -->
+<section class="section" id="problem">
   <div class="ambient-light"></div>
   <div class="bg-grid"></div>
+  <div class="particles"></div>
   <div class="ui-mark tl"></div>
   <div class="ui-mark bl"></div>
   <div class="ui-mark bc"></div>
   <div class="ui-mark br"></div>
 
   <div class="content-center">
-    <h2 class="section-headline">"콘텐츠, 열심히는 하는데<br>왜 안 터질까요?"</h2>
+    <h2 class="section-headline reveal">"콘텐츠, 열심히는 하는데<br>왜 안 터질까요?"</h2>
     <div class="pain-points">
-      <div class="pain-point">
-        <span class="number">①</span>
-        <p>영상 1편에 500만 원, 조회수는 3,000. 전통 제작 방식으로는 비용은 비용대로, 시간은 시간대로 들어가는데 성과가 안 보입니다. 매달 예산만 태우고 있다면 구조의 문제입니다.</p>
+      <div class="pain-point reveal reveal-delay-1">
+        <span class="number">01</span>
+        <p>영상 1편에 <strong class="hl-warn">500만 원, 조회수는 3,000.</strong> 전통 제작 방식으로는 비용은 비용대로, 시간은 시간대로 들어가는데 성과가 안 보입니다. 매달 예산만 태우고 있다면 <strong class="hl-key" style="white-space:nowrap;">구조의 문제입니다.</strong></p>
       </div>
-      <div class="pain-point">
-        <span class="number">②</span>
-        <p>AI 툴은 깔았는데, 결과물이 '아마추어 느낌'. Sora, Kling, Midjourney — 툴은 넘치지만 기획력 없는 AI 영상은 그냥 '신기한 영상'에서 끝납니다. 스크롤을 멈추게 하는 건 기술이 아니라 구조입니다.</p>
+      <div class="pain-point reveal reveal-delay-2">
+        <span class="number">02</span>
+        <p>AI 툴은 깔았는데, 결과물이 <strong class="hl-warn">'아마추어 느낌'.</strong> Sora, Kling, Midjourney — 툴은 넘치지만 기획력 없는 AI 영상은 그냥 '신기한 영상'에서 끝납니다. 스크롤을 멈추게 하는 건 <strong class="hl-key" style="white-space:nowrap;">기술이 아니라 구조입니다.</strong></p>
       </div>
-      <div class="pain-point">
-        <span class="number">③</span>
-        <p>인스타·유튜브, 매주 올리는데 팔로워가 제자리. 알고리즘은 계속 바뀌고, 감으로 올리는 콘텐츠는 도달률이 떨어집니다. 채널 데이터를 읽지 않으면 같은 실수를 반복하게 됩니다.</p>
+      <div class="pain-point reveal reveal-delay-3">
+        <span class="number">03</span>
+        <p>인스타·유튜브, 매주 올리는데 <strong class="hl-warn">팔로워가 제자리.</strong> 알고리즘은 계속 바뀌고, 감으로 올리는 콘텐츠는 도달률이 떨어집니다. <strong class="hl-key">채널 데이터를 읽지 않으면 같은 실수를 반복하게 됩니다.</strong></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════ SERVICES ════════ -->
-<section class="section">
+<!-- ════ SERVICES ════ -->
+<section class="section" id="services">
   <div class="ambient-light"></div>
   <div class="bg-grid"></div>
+  <div class="particles"></div>
   <div class="ui-mark tl"></div>
   <div class="ui-mark bl"></div>
   <div class="ui-mark bc"></div>
   <div class="ui-mark br"></div>
 
   <div class="services-content">
-    <div class="badge badge-center">SERVICES</div>
-    <h2 class="section-headline">시선강도가 설계합니다.</h2>
+    <div class="badge badge-center reveal">SERVICES</div>
+    <h2 class="section-headline reveal reveal-delay-1">시선강도가 설계합니다</h2>
     <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🎯</div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 18a6 6 0 100-12 6 6 0 000 12z"/><path d="M12 14a2 2 0 100-4 2 2 0 000 4z"/></svg></div>
         <h3 class="service-title">브랜드 콘텐츠 전략 설계</h3>
         <p class="service-desc">채널 데이터를 먼저 분석하고, 브랜드 목표를 바이럴 가능한 구조로 번역합니다. 훅, 서사, 확산 구조까지 한 번에 설계합니다.</p>
         <div class="service-proof">
           <span class="proof-label">대표 디렉터</span>
-          <p>국내 대형 에듀테크 기업 AI 콘텐츠 디렉터 출신. 채널 오가닉 유입 300% 증가, 광고소재 CPA 60% 절감 경험 보유.</p>
+          <p style="margin-bottom:0.6rem;">(전) 국내 대형 영어 에듀테크 기업 Y사 콘텐츠 디렉터</p>
+          <p style="padding-left:0.5rem; border-left:1px solid rgba(255,255,255,0.15); color:var(--text-secondary); font-size:0.85rem; line-height:1.6;">- AI 콘텐츠 누적 조회수 1.8억, 채널 오가닉 유입 300% 증가 및 광고소재 CPA 60% 절감</p>
         </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">🎬</div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
         <h3 class="service-title">AI 기반 영상 제작</h3>
         <p class="service-desc">생성형 AI(Kling·Sora·Veo)와 전문 편집 시스템을 결합해, 기존 제작 대비 3~5배 빠른 속도로 고퀄리티 영상을 납품합니다.</p>
         <div class="service-proof">
@@ -324,8 +565,8 @@ body {
           <p>6개월 만에 누적 6,200만 뷰, 평균 조회수 58만</p>
         </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">📈</div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         <h3 class="service-title">채널 성장 & IP 운영</h3>
         <p class="service-desc">일회성 바이럴이 아닌, 반복 시청을 만드는 시리즈 구조와 캐릭터 IP를 설계합니다.</p>
         <div class="service-proof">
@@ -337,41 +578,290 @@ body {
   </div>
 </section>
 
-<!-- ════════ CTA ════════ -->
+<!-- ════ PROCESS (NEW) ════ -->
+<section class="section process-section" id="process">
+  <div class="ambient-light"></div>
+  <div class="bg-grid"></div>
+  <div class="particles"></div>
+  <div class="ui-mark tl"></div>
+  <div class="ui-mark bl"></div>
+  <div class="ui-mark bc"></div>
+  <div class="ui-mark br"></div>
+
+  <div class="process-content">
+    <div class="badge badge-center reveal">HOW WE WORK</div>
+    <h2 class="section-headline reveal reveal-delay-1">콘텐츠 제작 프로세스</h2>
+
+    <div class="process-track">
+
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-circle">
+          <span class="step-num">01</span>
+        </div>
+        <div class="step-body">
+          <div class="step-title">전략 정의</div>
+          <div class="step-desc">브랜드 목표와 채널 분석, 콘텐츠 방향 설정</div>
+        </div>
+      </div>
+
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-circle">
+          <span class="step-num">02</span>
+        </div>
+        <div class="step-body">
+          <div class="step-title">콘셉트 기획</div>
+          <div class="step-desc">타깃과 플랫폼에 맞는 아이디어 설계</div>
+        </div>
+      </div>
+
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-circle">
+          <span class="step-num">03</span>
+        </div>
+        <div class="step-body">
+          <div class="step-title">스토리 설계</div>
+          <div class="step-desc">장면, 캐릭터, 훅 포인트 구성</div>
+        </div>
+      </div>
+
+      <div class="process-step reveal reveal-delay-4">
+        <div class="step-circle">
+          <span class="step-num">04</span>
+        </div>
+        <div class="step-body">
+          <div class="step-title">AI 제작 및 편집</div>
+          <div class="step-desc">AI + 편집 시스템 결합 제작</div>
+        </div>
+      </div>
+
+      <div class="process-step reveal" style="transition-delay:0.75s;">
+        <div class="step-circle active">
+          <span class="step-num">05</span>
+        </div>
+        <div class="step-body">
+          <div class="step-title">콘텐츠 완성</div>
+          <div class="step-desc">시선을 멈추게 하는 콘텐츠 완성</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ PORTFOLIO ════ -->
+<section class="section" id="portfolio">
+  <div class="ambient-light"></div>
+  <div class="bg-grid"></div>
+  <div class="particles"></div>
+  <div class="ui-mark tl"></div>
+  <div class="ui-mark bl"></div>
+  <div class="ui-mark bc"></div>
+  <div class="ui-mark br"></div>
+
+  <div class="portfolio-content">
+    <div class="badge badge-center reveal">PORTFOLIO</div>
+    <h2 class="portfolio-headline reveal reveal-delay-1">이런 콘텐츠를 만듭니다.</h2>
+
+    <div class="portfolio-video-wrap reveal reveal-delay-2">
+      <video controls playsinline preload="metadata">
+        <source src="https://pub-61ea8ce1b44540a283549432c1b86b3d.r2.dev/%EC%9D%BC%EB%B3%B8%EC%A0%84%20%EA%B0%80%EB%A1%9C.mp4" type="video/mp4">
+      </video>
+      <div class="portfolio-video-label">
+        <div class="portfolio-video-info">
+          <span class="portfolio-video-title">AI PISIK - 시니어 월드컵</span>
+          <span class="portfolio-category">SERIES</span>
+        </div>
+        <span class="portfolio-views">누적 <span>708만</span> 조회수</span>
+      </div>
+    </div>
+
+    <div class="portfolio-video-wrap crop reveal reveal-delay-3">
+      <video controls playsinline preload="metadata">
+        <source src="https://pub-61ea8ce1b44540a283549432c1b86b3d.r2.dev/F1%20%EC%9A%B0%EC%8A%B9%20%EB%85%B8%EB%9E%98%EC%9E%88%EB%8A%94%20%EB%B2%84%EC%A0%84.mp4" type="video/mp4">
+      </video>
+      <div class="portfolio-video-label">
+        <div class="portfolio-video-info">
+          <span class="portfolio-video-title">AI PISIK - 야쿠르트 아줌마 F1 우승</span>
+          <span class="portfolio-category">VIRAL</span>
+        </div>
+        <span class="portfolio-views">누적 <span>244만</span> 조회수</span>
+      </div>
+    </div>
+
+    <div class="portfolio-video-wrap reveal reveal-delay-4">
+      <video controls playsinline preload="metadata">
+        <source src="https://pub-61ea8ce1b44540a283549432c1b86b3d.r2.dev/%ED%94%BC%EC%8B%9D_%EA%B7%B8%EB%82%A0%EC%9D%98%20%EC%9A%B0%EB%A6%ACMV.mp4" type="video/mp4">
+      </video>
+      <div class="portfolio-video-label">
+        <div class="portfolio-video-info">
+          <span class="portfolio-video-title">AI PISIK - 그날의 우리 M/V</span>
+          <span class="portfolio-category">Brand Film</span>
+        </div>
+        <span class="portfolio-views">누적 <span>43만</span> 조회수</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA / CONTACT ════ -->
 <section class="section cta-section" id="cta">
   <div class="ambient-light"></div>
   <div class="bg-grid"></div>
+  <div class="particles"></div>
   <div class="ui-mark tl"></div>
   <div class="ui-mark bl"></div>
   <div class="ui-mark bc"></div>
   <div class="ui-mark br"></div>
 
   <div class="cta-content">
-    <h2 class="cta-headline">다음 7,000만 뷰의 주인공은<br>당신의 브랜드입니다.</h2>
-    <p class="cta-subhead">
+    <h2 class="cta-headline reveal">다음 7,000만 뷰의 주인공은<br>당신의 브랜드입니다.</h2>
+    <p class="cta-subhead reveal reveal-delay-1">
       지금 채널 데이터와 콘텐츠 현황을 보내주시면,<br>
       시선강도 팀이 무료로 진단 리포트를 만들어 드립니다.<br><br>
       어떤 콘텐츠가 왜 안 터지는지,<br>
       어디서부터 바꿔야 하는지 — 데이터로 보여드립니다.
     </p>
-    <a href="mailto:contact@sisungangdo.com" class="cta-button">
+    <a href="mailto:contact@sisungangdo.com" class="cta-button reveal reveal-delay-2">
       <span>무료 콘텐츠 진단 신청하기</span>
       <span class="cta-icon">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
       </span>
     </a>
-    <div class="contact-info">
+    <div class="contact-info reveal reveal-delay-3">
       <a href="mailto:contact@sisungangdo.com" class="contact-item">
-        <span class="contact-icon">📧</span>
+        <span class="contact-icon">✉</span>
         <span>contact@sisungangdo.com</span>
       </a>
       <a href="tel:+821080036702" class="contact-item">
-        <span class="contact-icon">📞</span>
+        <span class="contact-icon">☎</span>
         <span>+82 10-8003-6702</span>
       </a>
     </div>
   </div>
 </section>
+
+<!-- ════ FOOTER ════ -->
+<footer style="background-color:#030508; border-top:1px solid rgba(255,255,255,0.06); padding:2.5rem 2rem; text-align:center;">
+  <div style="max-width:700px; margin:0 auto; font-size:0.78rem; color:var(--text-secondary); line-height:1.9; letter-spacing:-0.01em;">
+    <p style="margin-bottom:0.4rem; color:rgba(255,255,255,0.5); font-weight:500;">시선강도 | AI Creative Agency</p>
+    <p>대표: 조민석 | 사업자등록번호: 628-33-01519</p>
+    <p>서울 강남구 도곡로 84길 6, B1</p>
+    <p>고객센터: contact@sisungangdo.com / 010-8003-6702</p>
+    <p style="margin-top:1rem; font-size:0.7rem; color:rgba(255,255,255,0.2);">Copyright © 시선강도. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ── Nav ──
+const nav = document.getElementById('mainNav');
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+navToggle.addEventListener('click', () => {
+  navToggle.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+  });
+});
+
+// ── Eye Tracking ──
+const leftPupil = document.getElementById('leftPupil');
+const rightPupil = document.getElementById('rightPupil');
+const logoContainer = document.getElementById('logoContainer');
+
+document.addEventListener('mousemove', (e) => {
+  if (!logoContainer) return;
+  const rect = logoContainer.getBoundingClientRect();
+  const logoCenterX = rect.left + rect.width / 2;
+  const logoCenterY = rect.top + rect.height * 0.45;
+  const dx = e.clientX - logoCenterX;
+  const dy = e.clientY - logoCenterY;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const maxMove = 6;
+  const moveX = (dx / Math.max(dist, 1)) * Math.min(dist * 0.02, maxMove);
+  const moveY = (dy / Math.max(dist, 1)) * Math.min(dist * 0.015, maxMove * 0.7);
+  if (leftPupil) leftPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  if (rightPupil) rightPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+});
+
+document.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  if (!logoContainer || !touch) return;
+  const rect = logoContainer.getBoundingClientRect();
+  const logoCenterX = rect.left + rect.width / 2;
+  const logoCenterY = rect.top + rect.height * 0.45;
+  const dx = touch.clientX - logoCenterX;
+  const dy = touch.clientY - logoCenterY;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const maxMove = 6;
+  const moveX = (dx / Math.max(dist, 1)) * Math.min(dist * 0.02, maxMove);
+  const moveY = (dy / Math.max(dist, 1)) * Math.min(dist * 0.015, maxMove * 0.7);
+  if (leftPupil) leftPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  if (rightPupil) rightPupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+}, { passive: true });
+
+// ── Scroll Reveal ──
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+revealEls.forEach(el => observer.observe(el));
+
+// ── Process Step Hover Highlight ──
+document.querySelectorAll('.process-step').forEach((step, i) => {
+  step.addEventListener('mouseenter', () => {
+    step.querySelector('.step-circle').style.boxShadow = '0 0 40px rgba(255,85,0,0.35), inset 0 0 20px rgba(255,85,0,0.1)';
+    step.querySelector('.step-circle').style.borderColor = 'var(--glow-mid)';
+  });
+  step.addEventListener('mouseleave', () => {
+    const circle = step.querySelector('.step-circle');
+    if (!circle.classList.contains('active')) {
+      circle.style.boxShadow = '';
+      circle.style.borderColor = '';
+    }
+  });
+});
+
+// ── Floating Particles ──
+document.querySelectorAll('.particles').forEach(container => {
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    p.style.opacity = 0.15 + Math.random() * 0.3;
+    container.appendChild(p);
+  }
+});
+
+// ── Parallax Grid ──
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      document.querySelectorAll('.bg-grid').forEach(grid => {
+        grid.style.backgroundPosition = `0 ${scrollY * 0.05}px`;
+      });
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
+</script>
 
 </body>
 </html>
